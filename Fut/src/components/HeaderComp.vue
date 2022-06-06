@@ -20,7 +20,7 @@
 </template>
 
 <style>
-header{
+header {
   height: 10%;
   background-color: rgb(57, 57, 128);
   color: white;
@@ -36,7 +36,7 @@ a {
   text-decoration: none;
 }
 
-.router-link-active{
+.router-link-active {
   font-weight: bold;
 }
 

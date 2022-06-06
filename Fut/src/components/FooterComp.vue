@@ -1,5 +1,5 @@
 <template>
-    <footer>Rodapé</footer>
+  <footer>Rodapé</footer>
 </template>
 
 <style>
