@@ -1,3 +1,16 @@
+<script>
+export default {
+  data() {
+    return {
+      times: [
+        { id: 1, nome: "Time 1" },
+        { id: 2, nome: "Time 2" },
+        { id: 3, nome: "Time 3" },
+      ],
+    };
+  },
+};
+</script>
 <template>
   <div class="container">
     <div class="title">
@@ -17,19 +30,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Time 1</td>
-            <td>???</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Time 2</td>
-            <td>???</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Time 3</td>
+          <tr v-for="time in times" :key="time.id">
+            <td>{{ time.id }}</td>
+            <td>{{ time.nome }}</td>
             <td>???</td>
           </tr>
         </tbody>
@@ -60,12 +63,19 @@
 .form-input button {
   padding: 0.5rem;
   width: 15%;
-  border: 1px solid rgb(20, 113, 20);
+  border: 2px solid rgb(20, 230, 20);
   border-radius: 10px;
-  background-color: rgb(20, 113, 20);
-  color: white;
+  background-color: #fff;
+  color: rgb(20, 230, 20);
   font-weight: bold;
   margin-left: 1%;
+}
+
+.form-input button:hover {
+  background-color: rgb(20, 230, 20);
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0px 15px 20px rgba(8, 233, 143, 0.2);
 }
 
 .list-times {
