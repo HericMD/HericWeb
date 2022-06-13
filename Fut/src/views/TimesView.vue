@@ -1,13 +1,32 @@
 <script>
+import { v4 as uuidv4 } from "uuid";
 export default {
   data() {
     return {
       times: [
-        { id: 1, nome: "Time 1" },
-        { id: 2, nome: "Time 2" },
-        { id: 3, nome: "Time 3" },
+        { id: "61230be1-5988-4506-b5cc-034d275ea2af", nome: "Time 1" },
+        { id: "75f3e938-fd69-4214-b479-6ed45144f404", nome: "Time 2" },
+        { id: "dadba913-a14c-4dc4-a01a-432460fb90f5", nome: "Time 3" },
+        { id: "3204d628-3a4c-43ac-961e-138b4ec37d96", nome: "Time 4" },
       ],
+      novo_time: "",
     };
+  },
+  methods: {
+    salvar() {
+      if (this.novo_time !== "") {
+        const novo_id = uuidv4();
+        this.times.push({
+          id: novo_id,
+          nome: this.novo_time,
+        });
+        this.novo_time = "";
+      }
+    },
+    excluir(time) {
+      const indice = this.times.indexOf(time);
+      this.times.splice(indice, 1);
+    },
   },
 };
 </script>
@@ -17,11 +36,16 @@ export default {
       <h2>Gerenciamento de times</h2>
     </div>
     <div class="form-input">
-      <input type="text" />
-      <button>Salvar</button>
+      <input
+        type="text"
+        placeholder="Time"
+        v-model="novo_time"
+        @keydown.enter="salvar"
+      />
+      <button @click="salvar">Salvar</button>
     </div>
     <div class="list-times">
-      <table>
+      <table v-if="times.length > 0">
         <thead>
           <tr>
             <th>ID</th>
@@ -33,10 +57,14 @@ export default {
           <tr v-for="time in times" :key="time.id">
             <td>{{ time.id }}</td>
             <td>{{ time.nome }}</td>
-            <td>???</td>
+            <td>
+              <button>Editar</button>
+              <button @click="excluir(time)">Excluir</button>
+            </td>
           </tr>
         </tbody>
       </table>
+      <span v-else>Sem elementos cadastrados</span>
     </div>
   </div>
 </template>
@@ -49,7 +77,8 @@ export default {
 
 .form-input {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin: 2rem 0;
 }
 
@@ -58,6 +87,7 @@ export default {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 10px;
+  margin: 3px;
 }
 
 .form-input button {
@@ -68,7 +98,7 @@ export default {
   background-color: #fff;
   color: rgb(20, 230, 20);
   font-weight: bold;
-  margin-left: 1%;
+  margin-top: 10px;
 }
 
 .form-input button:hover {
