@@ -1,42 +1,33 @@
 <script>
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 export default {
   data() {
     return {
-      jogadores: [
-        {
-          id: "c77142d1-ac69-43bf-878d-40f9aa19906e",
-          nome: "Jogador 1",
-          time: "Time 1",
-        },
-        {
-          id: "a3728541-c035-4b28-9d3f-3cde8cfe8890",
-          nome: "Jogador 2",
-          time: "Time 2",
-        },
-        {
-          id: "dbe4257e-428e-407a-9e53-ca255c59966b",
-          nome: "Jogador 3",
-          time: "Time 3",
-        },
-        {
-          id: "3204d628-3a4c-43ac-961e-138b4ec37d96",
-          nome: "Jogador 4",
-          time: "Time 4",
-        },
-      ],
+      jogadores: [],
       novo_time: "",
       novo_jogador: "",
     };
   },
+  async created() {
+    const jogadores = await axios.get("http://localhost:4000/jogadores");
+    this.jogadores = jogadores.data;
+  },
   methods: {
-    salvar() {
-      const novo_id = uuidv4();
-      this.jogadores.push({
-        id: novo_id,
+    async salvar() {
+      const jogador = {
         nome: this.novo_jogador,
         time: this.novo_time,
-      });
+      };
+      const jogador_criado = await axios.post(
+        "http://localhost:4000/jogadores",
+        jogador
+      );
+      this.jogadores.push(jogador_criado.data);
+    },
+    async excluir(jogador) {
+      await axios.delete(`http://localhost:4000/times`);
+      const indice = this.times.indexOf(jogador);
+      this.times.splice(indice, 1);
     },
   },
 };
@@ -67,7 +58,10 @@ export default {
             <td>{{ jogador.id }}</td>
             <td>{{ jogador.nome }}</td>
             <td>{{ jogador.time }}</td>
-            <td>???</td>
+            <td>
+              <button>Editar</button>
+              <button @click="excluir(jogador)">Excluir</button>
+            </td>
           </tr>
         </tbody>
       </table>

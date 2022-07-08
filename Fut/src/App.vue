@@ -1,6 +1,5 @@
 <script setup>
 import HeaderComp from "@/components/HeaderComp.vue";
-import FooterComp from "@/components/FooterComp.vue";
 </script>
 
 <template>
@@ -8,14 +7,13 @@ import FooterComp from "@/components/FooterComp.vue";
   <main>
     <RouterView />
   </main>
-  <FooterComp />
 </template>
 
 <style>
 @import "@/assets/base.css";
 
 body {
-  background-color: gray;
+  background-color: rgba(128, 128, 128, 0.5);
 }
 
 #app {
