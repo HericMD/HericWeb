@@ -62,7 +62,7 @@ export default {
           </tr>
         </tbody>
       </table>
-      <span v-else>Sem elementos cadastrados</span>
+      <span v-else>Sem times cadastrados</span>
     </div>
   </div>
 </template>
@@ -80,7 +80,8 @@ export default {
   margin: 2rem 0;
 }
 
-.form-input input {
+.form-input input,
+select {
   width: 50%;
   padding: 0.5rem;
   border: 1px solid #ccc;
