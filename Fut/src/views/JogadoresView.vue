@@ -1,5 +1,6 @@
 <script>
-import axios from "axios";
+import JogadoresApi from "@/api/jogadores.js";
+const jogadoresApi = new JogadoresApi();
 export default {
   data() {
     return {
@@ -9,20 +10,24 @@ export default {
     };
   },
   async created() {
-    await this.buscarTodosOsJogadores();
-    const times = await axios.get("http://localhost:4000/times");
-    this.times = times.data;
+    this.jogadores = await this.buscarTodosOsJogadores();
   },
   methods: {
-    async buscarTodosOsJogadores() {
-      const jogadores = await axios.get(
-        "http://localhost:4000/jogadores?expand=time"
-      );
-      this.jogadores = jogadores.data;
-    },
     async salvar() {
-      await axios.post("http://localhost:4000/jogadores", this.jogador);
-      await this.buscarTodosOsJogadores();
+      if (this.jogador.id) {
+        await jogadoresApi.atualizarJogador(this.jogador);
+      } else {
+        await jogadoresApi.adicionarJogador(this.jogador);
+      }
+      this.jogadores = await jogadoresApi.buscarTodosOsJogadores();
+      this.jogador = {};
+    },
+    async excluir(jogador) {
+      await jogadoresApi.excluirJogador(jogador.id);
+      this.jogadores = await jogadoresApi.buscarTodosOsJogadores();
+    },
+    editar(jogador) {
+      Object.assign(this.jogador, jogador);
     },
   },
 };
